@@ -10,7 +10,6 @@ const OneGoalie = props =>{
     const { _playerID } = useParams();
     const [player, setPlayer] = useState(null);
     const [ad, setAd] = useState(null);
-    const [rank, setRank] = useState(null);
     const [ad1, setAd1] = useState(null);
     const [ad2, setAd2] = useState(null);
 
