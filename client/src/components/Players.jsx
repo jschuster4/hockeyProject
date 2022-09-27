@@ -18,15 +18,17 @@ const Players = props => {
     }, [])
 
     return(
-        <div>
-            <h1>{_teamName} Players</h1>
-            <table>
+        <div className="container">
+            <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
+                <h3>{_teamName} Roster 2022-2023</h3>
+                <Link to={`/home`}><button className="btn btn-secondary" style={{marginTop: '15px'}}>Return to All Teams</button></Link>
+            </div>
+            <table className="table table-dark table-striped" style={{border: '10px solid', borderColor: 'orangered'}}>
                 <thead>
                     <tr>
-                        <th>Name:</th>
-                        <th>Number:</th>
+                        <th>Name</th>
+                        <th>Number</th>
                         <th>Position</th>
-                        <th>Player Information</th>
                     </tr>
                 </thead>
                 <tbody>{

@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom"
+import { Link } from "react-router-dom";
+
 
 
 const OneGoalie = props =>{
@@ -9,6 +11,7 @@ const OneGoalie = props =>{
     const [player, setPlayer] = useState(null);
     const [ad, setAd] = useState(null);
     const [rank, setRank] = useState(null);
+    const [ad1, setAd1] = useState(null)
 
     useEffect(() => {
         axios.get(`https://statsapi.web.nhl.com/api/v1/people/${_playerID}`)
@@ -22,18 +25,24 @@ const OneGoalie = props =>{
         .then(res => setAd(res.data))
         .catch(err => console.log(err));
     }, [])
-
-    // useEffect(() => {
-    //     axios.get(`https://statsapi.web.nhl.com/api/v1/people/${_playerID}/stats?stats=regularSeasonStatRankings&season=20202021`)
-    //     .then(res => setRank(res.data))
-    //     .catch(err => console.log(err))
-    // }, [])
+    
+    useEffect(() => {
+        axios.get(`https://statsapi.web.nhl.com/api/v1/people/${_playerID}/stats?stats=statsSingleSeason&season=20192020`)
+        .then(res => setAd1(res.data))
+        .catch(err => console.log(err));
+    }, [])
 
     return(
-        <div>
+        <div className="container">
             <div>
-                <h1>General Player Information</h1>
-                <table>
+                <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                    <h3>General Player Information</h3>
+                    {
+                        player ? <Link to={`/roster/${player.people[0].currentTeam.id}/${player.people[0].currentTeam.name}`}>
+                        <button className="btn btn-secondary" style={{marginTop: '15px'}}>Back to Roster</button></Link> : ""
+                    }
+                </div>
+                <table className='table table-dark table-striped' style={{border: '10px solid', borderColor: 'orangered'}}>
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -64,13 +73,13 @@ const OneGoalie = props =>{
             </div>
 
             <div>
-                <h1>2020 - 2021 Season</h1>
-                
+                <h3>2020 - 2021 Season Stats</h3>
                     {
-                        ad && ad.stats[0] && ad.stats[0].splits[0] ? <table>
+                        ad && ad.stats[0] && ad.stats[0].splits[0] ? <table className="table table-dark table-striped" style={{border: '10px solid', borderColor: 'orangered'}}>
                     <thead>
                         {
                             player ? <tr>
+                                <th>Games Played</th>
                                 <th>Shutouts</th>
                                 <th>Wins</th>
                                 <th>Losses</th>
@@ -82,6 +91,7 @@ const OneGoalie = props =>{
                     </thead>
                         <tbody>
                             <tr>
+                                <td>{ad.stats[0].splits[0].stat.games}</td>
                                 <td>{ad.stats[0].splits[0].stat.shutouts}</td>
                                 <td>{ad.stats[0].splits[0].stat.wins}</td>
                                 <td>{ad.stats[0].splits[0].stat.losses}</td>
@@ -90,7 +100,39 @@ const OneGoalie = props =>{
                                 <td>{ad.stats[0].splits[0].stat.goalsAgainst}</td>
                             </tr>
                         </tbody>
-                    </table> : "Season Stats Not Available"
+                    </table> : <h3>Season Stats Not Available</h3>
+                    }
+            </div>
+
+            <div>
+                <h3>2019 - 2020 Season Stats</h3>
+                    {
+                        ad1 && ad1.stats[0] && ad1.stats[0].splits[0] ? <table className="table table-dark table-striped" style={{border: '10px solid', borderColor: 'orangered'}}>
+                    <thead>
+                        {
+                            player ? <tr>
+                                <th>Games Played</th>
+                                <th>Shutouts</th>
+                                <th>Wins</th>
+                                <th>Losses</th>
+                                <th>Ties</th>
+                                <th>Save Percentage</th>
+                                <th>Goals Against</th>
+                            </tr> : ""
+                        }
+                    </thead>
+                        <tbody>
+                            <tr>
+                                <td>{ad1.stats[0].splits[0].stat.games}</td>
+                                <td>{ad1.stats[0].splits[0].stat.shutouts}</td>
+                                <td>{ad1.stats[0].splits[0].stat.wins}</td>
+                                <td>{ad1.stats[0].splits[0].stat.losses}</td>
+                                <td>{ad1.stats[0].splits[0].stat.ties}</td>
+                                <td>{ad1.stats[0].splits[0].stat.savePercentage}</td>
+                                <td>{ad1.stats[0].splits[0].stat.goalsAgainst}</td>
+                            </tr>
+                        </tbody>
+                    </table> : <h3>Season Stats Not Available</h3>
                     }
             </div>
         </div>

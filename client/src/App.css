@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: darkblue;
 }
 
 .App-logo {
@@ -35,4 +36,14 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+h3{
+  color: mintcream;
+  padding-bottom: 15px;
+  padding-top: 15px
+}
+
+button{
+  margin: 20px;
 }

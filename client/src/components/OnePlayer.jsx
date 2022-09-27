@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom"
+import { Link } from "react-router-dom";
+
 
 
 const OnePlayer = props =>{
@@ -9,6 +11,7 @@ const OnePlayer = props =>{
     const [player, setPlayer] = useState(null);
     const [ad, setAd] = useState(null);
     const [rank, setRank] = useState(null);
+    const [ad1, setAd1] = useState(null);
 
     useEffect(() => {
         axios.get(`https://statsapi.web.nhl.com/api/v1/people/${_playerID}`)
@@ -22,18 +25,31 @@ const OnePlayer = props =>{
         .then(res => setAd(res.data))
         .catch(err => console.log(err));
     }, [])
-
+    
     useEffect(() => {
-        axios.get(`https://statsapi.web.nhl.com/api/v1/people/${_playerID}/stats?stats=regularSeasonStatRankings&season=20202021`)
-        .then(res => setRank(res.data))
-        .catch(err => console.log(err))
+        axios.get(`https://statsapi.web.nhl.com/api/v1/people/${_playerID}/stats?stats=statsSingleSeason&season=20192020`)
+        .then(res => setAd1(res.data))
+        .catch(err => console.log(err));
     }, [])
 
+    // useEffect(() => {
+    //     axios.get(`https://statsapi.web.nhl.com/api/v1/people/${_playerID}/stats?stats=regularSeasonStatRankings&season=20202021`)
+    //     .then(res => setRank(res.data))
+    //     .catch(err => console.log(err))
+    // }, [])
+
     return(
-        <div>
-            <div>
-                <h1>General Player Information</h1>
-                <table>
+        <div className="container">
+            <div >
+                <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                    <h3>General Player Information</h3>
+                    {
+                        player ? <Link to={`/roster/${player.people[0].currentTeam.id}/${player.people[0].currentTeam.name}`}>
+                        <button className="btn btn-secondary" style={{marginTop: '15px'}}>Back to Roster</button></Link> : ""
+                    }
+                </div>
+
+                <table className="table table-dark table-striped" style={{border: '10px solid', borderColor: 'orangered'}}>
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -64,9 +80,9 @@ const OnePlayer = props =>{
             </div>
 
             <div>
-                <h1>2020 - 2021 Season</h1>
+                <h3>2020 - 2021 Season Stats</h3>
                 {
-                    ad && ad.stats[0] && ad.stats[0].splits[0] && rank && rank.stats[0] && rank.stats[0].splits[0] ?<table>
+                    ad && ad.stats[0] && ad.stats[0].splits[0] ?<table className="table table-dark table-striped" style={{border: '10px solid', borderColor: 'orangered'}}>
                     <thead>
                         {
                             player ? <tr>
@@ -84,6 +100,63 @@ const OnePlayer = props =>{
                     </thead>
                     <tbody>
                             <tr>
+                                <td>{ad.stats[0].splits[0].stat.goals} </td>
+                                <td>{ad.stats[0].splits[0].stat.assists} </td>
+                                <td>{ad.stats[0].splits[0].stat.pim} </td>
+                                <td>{ad.stats[0].splits[0].stat.plusMinus} </td>
+                                <td>{ad.stats[0].splits[0].stat.shots} </td>
+                                <td>{ad.stats[0].splits[0].stat.hits} </td>
+                                <td>{ad.stats[0].splits[0].stat.points} </td>
+                                <td>{ad.stats[0].splits[0].stat.games} </td>
+                                <td>{ad.stats[0].splits[0].stat.timeOnIcePerGame} </td>
+                            </tr>
+                        </tbody>
+                    </table>: <h3>Season Stats Not Available</h3>
+                        }
+            </div>
+
+            <div>
+                <h3>2019 - 2020 Season Stats</h3>
+                {
+                    ad1 && ad1.stats[0] && ad1.stats[0].splits[0] ?<table className="table table-dark table-striped" style={{border: '10px solid', borderColor: 'orangered'}}>
+                    <thead>
+                        {
+                            player ? <tr>
+                                <th>Goals</th>
+                                <th>Assists</th>
+                                <th>PIM</th>
+                                <th>+/-</th>
+                                <th>Shots</th>
+                                <th>Hits</th>
+                                <th>Points</th>
+                                <th>Games</th>
+                                <th>Average Ice Time</th>
+                            </tr> : ""
+                        }
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td>{ad1.stats[0].splits[0].stat.goals} </td>
+                                <td>{ad1.stats[0].splits[0].stat.assists} </td>
+                                <td>{ad1.stats[0].splits[0].stat.pim} </td>
+                                <td>{ad1.stats[0].splits[0].stat.plusMinus} </td>
+                                <td>{ad1.stats[0].splits[0].stat.shots} </td>
+                                <td>{ad1.stats[0].splits[0].stat.hits} </td>
+                                <td>{ad1.stats[0].splits[0].stat.points} </td>
+                                <td>{ad1.stats[0].splits[0].stat.games} </td>
+                                <td>{ad1.stats[0].splits[0].stat.timeOnIcePerGame} </td>
+                            </tr>
+                        </tbody>
+                    </table>: <h3>Season Stats Not Available</h3>
+                        }
+            </div>
+        </div>
+    )
+}
+
+export default OnePlayer;
+
+{/* <tr>
                                 <td>{ad.stats[0].splits[0].stat.goals} (Rank:{rank.stats[0].splits[0].stat.rankGoals})</td>
                                 <td>{ad.stats[0].splits[0].stat.assists} (Rank:{rank.stats[0].splits[0].stat.rankAssists})</td>
                                 <td>{ad.stats[0].splits[0].stat.pim} (Rank:{rank.stats[0].splits[0].stat.rankPenaltyMinutes})</td>
@@ -93,26 +166,4 @@ const OnePlayer = props =>{
                                 <td>{ad.stats[0].splits[0].stat.points} (Rank:{rank.stats[0].splits[0].stat.rankPoints})</td>
                                 <td>{ad.stats[0].splits[0].stat.games} (Rank:{rank.stats[0].splits[0].stat.rankGamesPlayed})</td>
                                 <td>{ad.stats[0].splits[0].stat.timeOnIcePerGame} </td>
-                            </tr>
-                        </tbody>
-                    </table>: "Season Stats Not Available"
-
-                        }
-            </div>
-        </div>
-    )
-}
-
-export default OnePlayer;
-
-// ad && rank ? <tr>
-//                                 <td>{ad.stats[0].splits[0].stat.goals} (Rank: {rank.stats[0].splits[0].stat.rankGoals})</td>
-//                                 <td>{ad.stats[0].splits[0].stat.assists} (Rank: {rank.stats[0].splits[0].stat.rankAssists})</td>
-//                                 <td>{ad.stats[0].splits[0].stat.pim} (Rank: {rank.stats[0].splits[0].stat.rankPenaltyMinutes})</td>
-//                                 <td>{ad.stats[0].splits[0].stat.plusMinus} (Rank: {rank.stats[0].splits[0].stat.rankPlusMinus})</td>
-//                                 <td>{ad.stats[0].splits[0].stat.shots} (Rank: {rank.stats[0].splits[0].stat.rankShots})</td>
-//                                 <td>{ad.stats[0].splits[0].stat.hits} (Rank: {rank.stats[0].splits[0].stat.rankHits})</td>
-//                                 <td>{ad.stats[0].splits[0].stat.points} (Rank: {rank.stats[0].splits[0].stat.rankPoint})</td>
-//                                 <td>{ad.stats[0].splits[0].stat.games} (Rank: {rank.stats[0].splits[0].stat.rankGamesPlayed})</td>
-//                                 <td>{ad.stats[0].splits[0].stat.timeOnIcePerGame}</td>
-//                             </tr> : ""
+                            </tr> */}
