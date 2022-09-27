@@ -79,7 +79,7 @@ const OneGoalie = props =>{
             </div>
 
             <div>
-                <h3>2019 - 2022 Season Stats</h3>
+                <h3>Player Statistics 2019-2022</h3>
                     {
                         ad && ad.stats[0] && ad.stats[0].splits[0] ? <table className="table table-dark table-striped" style={{border: '10px solid', borderColor: 'orangered'}}>
                     <thead>

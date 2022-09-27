@@ -17,6 +17,7 @@ function App() {
       </div>
       <Routes>
         <Route path="/home" element={<Home/>}/>
+        <Route path="/" element={<Home/>}/>
         <Route path="/roster/:_id/:_teamName" element={<Players/>}/>
         <Route path="/players/:_playerID" element={<OnePlayer/>}/>
         <Route path="/goalies/:_playerID" element={<OneGoalie/>}/>
