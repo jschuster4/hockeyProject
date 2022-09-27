@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-color: darkblue;
+  background-color: rgb(22, 61, 179);
 }
 
 .App-logo {
@@ -41,9 +41,14 @@
 h3{
   color: mintcream;
   padding-bottom: 15px;
-  padding-top: 15px
+  padding-top: 15px;
 }
 
 button{
   margin: 20px;
+}
+
+img{
+  width: 5%;
+  padding: 15px;
 }

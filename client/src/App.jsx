@@ -10,7 +10,11 @@ import '../node_modules/bootstrap/dist/css/bootstrap.css'
 function App() {
   return (
     <div className="App" style={{paddingBottom: '15px'}}>
-      <h1 style={{color: 'MintCream', padding: '20px', backgroundColor: 'mediumblue', borderBottom: 'solid black 5px'}}>NHL Player Encyclopedia</h1>
+      <div style={{display: 'flex', backgroundColor: 'navy', alignItems: 'center',  borderBottom: 'solid black 5px'}}>
+        <img style={{flex: 1}}src="https://upload.wikimedia.org/wikipedia/en/thumb/4/42/Logo_New_York_Islanders.svg/1200px-Logo_New_York_Islanders.svg.png" alt="Islanders Logo" />
+        <h1 style={{flex: 20, color: 'MintCream', padding: '20px', marginRight: '15px' }}>NHL Player Encyclopedia</h1>
+        
+      </div>
       <Routes>
         <Route path="/home" element={<Home/>}/>
         <Route path="/roster/:_id/:_teamName" element={<Players/>}/>
