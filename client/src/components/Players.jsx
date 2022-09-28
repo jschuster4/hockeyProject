@@ -21,7 +21,7 @@ const Players = props => {
         <div className="container">
             <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
                 <h3>{_teamName} Roster 2022-2023</h3>
-                <Link to={`/home`}><button className="btn btn-secondary" style={{marginTop: '15px'}}>Return to All Teams</button></Link>
+                <Link to={`/home`}><button className="btn btn-secondary" style={{marginTop: '15px'}}>Back to All Teams</button></Link>
             </div>
             <table className="table table-dark table-striped" style={{border: '10px solid', borderColor: 'orangered'}}>
                 <thead>
@@ -41,7 +41,7 @@ const Players = props => {
                         
                         <td>{player.jerseyNumber}</td>
                         <td>{player.position.name}</td>
-                    </tr>) : ""}</tbody>
+                    </tr>) : "Player doesnt exists"}</tbody>
             </table>
         </div>
     )
